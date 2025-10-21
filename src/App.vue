@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Dark } from 'quasar'
+import { useVariablesStore } from './stores/variables'
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
@@ -22,8 +24,21 @@ useHead({
     },
   ],
 })
+const store = useVariablesStore()
+async function listenDark() {
+  if (isDark.value)
+    Dark.set(true)
+  else Dark.set(false)
+}
+onMounted(() => {
+  listenDark()
+
+})
 </script>
 
 <template>
-  <RouterView />
+ <RouterView />
+  <q-inner-loading :showing="store.overlay" z-100000>
+    <q-spinner-cube color="red" size="3em" />
+  </q-inner-loading>
 </template>

@@ -2,7 +2,6 @@ import path from 'node:path'
 import VueI18n from '@intlify/unplugin-vue-i18n/vite'
 import Shiki from '@shikijs/markdown-it'
 import { unheadVueComposablesImports } from '@unhead/vue'
-import { VarletImportResolver } from '@varlet/import-resolver'
 import Vue from '@vitejs/plugin-vue'
 import LinkAttributes from 'markdown-it-link-attributes'
 import Unocss from 'unocss/vite'
@@ -18,7 +17,7 @@ import VueDevTools from 'vite-plugin-vue-devtools'
 import Layouts from 'vite-plugin-vue-layouts'
 import generateSitemap from 'vite-ssg-sitemap'
 import 'vitest/config'
-
+import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 export default defineConfig({
   resolve: {
     alias: {
@@ -37,9 +36,13 @@ export default defineConfig({
       plugins: {
         vue: Vue({
           include: [/\.vue$/, /\.md$/],
+          template: {
+            transformAssetUrls,
+          },
         }),
       },
     }),
+    quasar(),
 
     // https://github.com/JohnCampionJr/vite-plugin-vue-layouts
     Layouts(),
@@ -64,7 +67,7 @@ export default defineConfig({
         'src/stores',
       ],
       vueTemplate: true,
-      resolvers: [VarletImportResolver({ autoImport: true })],
+      
     }),
 
     // https://github.com/antfu/unplugin-vue-components
@@ -74,7 +77,7 @@ export default defineConfig({
       // allow auto import and register components used in markdown
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
       dts: 'src/components.d.ts',
-      resolvers: [VarletImportResolver()],
+      
     }),
 
     // https://github.com/antfu/unocss

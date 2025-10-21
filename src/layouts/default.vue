@@ -1,12 +1,28 @@
 <template>
-  <main
-    px-4 py-10
-    text="center gray-700 dark:gray-200"
-  >
-    <RouterView />
-    <TheFooter />
-    <div mx-auto mt-5 text-center text-sm opacity-50>
-      [Default Layout]
-    </div>
-  </main>
+  <q-layout view="lhh LpR lff">
+    <AppBar />
+    <q-page-container class="page-container ">
+      <q-page mb-0 bg-gray-2 dark:bg-gray-900 >
+        <router-view #="{ Component, route }" >
+          <transition name="fade" mode="out-in">
+            <div :key="route.name || 'fallback-route-name'">
+              <component :is="Component" />
+            </div>
+          </transition>
+        </router-view>
+      </q-page>
+    </q-page-container>
+  </q-layout>
 </template>
+
+<style lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

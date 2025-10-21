@@ -8,6 +8,8 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AppBar: typeof import('./components/AppBar.vue')['default']
+    Categories: typeof import('./components/dashboard/categories.vue')['default']
     README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
@@ -15,6 +17,9 @@ declare module 'vue' {
     TheFooter: typeof import('./components/TheFooter.vue')['default']
     TheInput: typeof import('./components/TheInput.vue')['default']
     Upload: typeof import('./components/dashboard/upload.vue')['default']
+    VarAppBar: typeof import('@varlet/ui')['_AppBarComponent']
+    VarCard: typeof import('@varlet/ui')['_CardComponent']
+    VarInput: typeof import('@varlet/ui')['_InputComponent']
     VarPagination: typeof import('@varlet/ui')['_PaginationComponent']
     VarTable: typeof import('@varlet/ui')['_TableComponent']
   }

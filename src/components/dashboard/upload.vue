@@ -2,6 +2,8 @@
 import axios from 'axios'
 import Papa from 'papaparse'
 import { onMounted, ref } from 'vue'
+import { categories } from '~/composables/useCategories'
+import { useOverlay } from '~/composables/useOverlay'
 
 interface SheetRow {
   name: string
@@ -10,11 +12,10 @@ interface SheetRow {
 
 const loading = ref(false)
 const errorMessage = ref<string | null>(null)
-
-const SPREADSHEET_ID = '1o0nM9qhNUcfrrCMDxdLjT5RRKuZwCeiVRPtgKnnQ6ng'
-const CACHE_DURATION = 60 * 60 * 1000 // 1 hour
+const SPREADSHEET_ID = import.meta.env.VITE_APP_SPREADSHEET_ID
+const CACHE_DURATION = Number(import.meta.env.VITE_APP_CACHE_DURATION)// 1 hour
 const store = indexStore()
-async function loadDataForCategory(category: string) {
+async function loadDataForCategory(category: string) { 
   const cacheKey = `sheetData_${category}`
   store.loadData(category)
   if (store.getCategoryData(category).length > 0) {
@@ -48,7 +49,6 @@ async function loadDataForCategory(category: string) {
               name: row[0] || '',
               price: row[1] || '',
             })) as SheetRow[]
-          store.setCategoryData(category, headers, newData)
           localStorage.setItem(
             cacheKey,
             JSON.stringify({
@@ -73,15 +73,51 @@ async function loadAllData() {
   loading.value = true
   errorMessage.value = null
   try {
-    await Promise.all(store.getCategories.map(category => loadDataForCategory(category)))
+    await Promise.all(categories.map(category => loadDataForCategory(category.key)))
   }
   finally {
     loading.value = false
   }
 }
 
+
+// localStorage'dan foydalanuvchi ma'lumotlarini o'qish
+const getUserFromLocalStorage = (): any | null => {
+  const user = localStorage.getItem('telegram_user');
+  return user ? JSON.parse(user) : null;
+};
+
+// Telegram Web App ma'lumotlarini localStorage'ga saqlash
+const saveUserToLocalStorage = () => {
+  if (window.Telegram?.WebApp) {
+    const webApp = window.Telegram.WebApp;
+    const userData = webApp.initDataUnsafe?.user;
+
+    if (userData) {
+      // localStorage'da mavjud ma'lumotni tekshirish
+      const existingUser = getUserFromLocalStorage();
+
+      // Agar localStorage'da ma'lumot yo'q bo'lsa yoki foydalanuvchi ID'si boshqacha bo'lsa, saqlash
+      if (!existingUser || existingUser.id !== userData.id) {
+        localStorage.setItem('telegram_user', JSON.stringify(userData));
+        console.log('Foydalanuvchi ma\'lumotlari saqlandi:', userData);
+      } else {
+        console.log('Foydalanuvchi ma\'lumotlari allaqachon mavjud:', existingUser);
+      }
+
+      // Telegram Web App-ni kengaytirish
+      webApp.expand();
+    } else {
+      console.log('Foydalanuvchi ma\'lumotlari mavjud emas');
+    }
+  } else {
+    console.log('Telegram WebApp mavjud emas');
+  }
+};
+
 onMounted(() => {
   loadAllData()
+  saveUserToLocalStorage()
 })
 </script>
 
