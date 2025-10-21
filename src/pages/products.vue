@@ -36,9 +36,12 @@ onMounted(() => {
 <template>
     <div mx-auto my-0 max-w-500px>
         <div text-18px font-600>{{ t(route.query.title as string) }}</div>
-        <q-input v-model="search" :label="t('tr5')" dense outlined @update:model-value="searchProduct" />
+        <div mx-2 bg-white rounded-2xl px-4>
+
+            <q-input v-model="search" :label="t('tr5')"  borderless @update:model-value="searchProduct" />
+        </div>
         <br>
-        <div v-for="item in data" :key="item.name" bg-white dark:bg-gray-7 mb-2 p-4>
+        <div v-for="item in data" :key="item.name" bg-white dark:bg-gray-7 mb-2 p-4 mx-2 rounded-2xl>
             <div flex justify-between>
                 <div>
                     <div text-18px font-700>{{ item.name }}</div>
