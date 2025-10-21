@@ -16,11 +16,23 @@ async function toggleLocales(newLocale: string) {
     localStorage.setItem('language', newLocale)
     useOverlay(false)
 }
-const user = ref<any>()
+const user = ref<any | null>(null);
+
+// localStorage'dan foydalanuvchi ma'lumotlarini o'qish funksiyasi
+const getUserFromLocalStorage = (): any | null => {
+  const userData = localStorage.getItem('telegram_user');
+  return userData ? JSON.parse(userData) : null;
+};
 onMounted(() => {
     const lang = localStorage.getItem('language') || 'uz'
-    user.value = JSON.parse(localStorage.getItem('telegram_user') || 'User topilmadi')
     toggleLocales(lang)
+    const savedUser = getUserFromLocalStorage();
+  if (savedUser) {
+    user.value = savedUser;
+    console.log('Foydalanuvchi ma\'lumotlari:', savedUser);
+  } else {
+    console.log('localStorage\'da foydalanuvchi ma\'lumotlari topilmadi');
+  }
 })
 </script>
 <template>
