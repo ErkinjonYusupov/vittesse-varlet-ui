@@ -14,13 +14,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheCounter: typeof import('./components/TheCounter.vue')['default']
-    TheFooter: typeof import('./components/TheFooter.vue')['default']
     TheInput: typeof import('./components/TheInput.vue')['default']
     Upload: typeof import('./components/dashboard/upload.vue')['default']
-    VarAppBar: typeof import('@varlet/ui')['_AppBarComponent']
-    VarCard: typeof import('@varlet/ui')['_CardComponent']
-    VarInput: typeof import('@varlet/ui')['_InputComponent']
-    VarPagination: typeof import('@varlet/ui')['_PaginationComponent']
-    VarTable: typeof import('@varlet/ui')['_TableComponent']
   }
 }
