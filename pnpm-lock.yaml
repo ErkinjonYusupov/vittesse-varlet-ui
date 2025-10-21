@@ -66,6 +66,37 @@ catalogs:
     vite-ssg-sitemap:
       specifier: ^0.8.1
       version: 0.8.1
+  default:
+    '@types/axios':
+      specifier: ^0.14.4
+      version: 0.14.4
+    '@types/file-saver':
+      specifier: ^2.0.7
+      version: 2.0.7
+    '@types/papaparse':
+      specifier: ^5.3.16
+      version: 5.3.16
+    '@varlet/import-resolver':
+      specifier: ^3.12.0
+      version: 3.12.0
+    '@varlet/touch-emulator':
+      specifier: ^3.12.0
+      version: 3.12.0
+    '@varlet/ui':
+      specifier: ^3.12.0
+      version: 3.12.0
+    axios:
+      specifier: ^1.12.2
+      version: 1.12.2
+    file-saver:
+      specifier: ^2.0.5
+      version: 2.0.5
+    papaparse:
+      specifier: ^5.5.3
+      version: 5.5.3
+    xlsx:
+      specifier: ^0.18.5
+      version: 0.18.5
   dev:
     '@antfu/eslint-config':
       specifier: ^4.11.0
@@ -164,28 +195,28 @@ importers:
         specifier: catalog:frontend
         version: 66.1.0-beta.7
       '@varlet/import-resolver':
-        specifier: ^3.12.0
+        specifier: 'catalog:'
         version: 3.12.0
       '@varlet/touch-emulator':
-        specifier: ^3.12.0
+        specifier: 'catalog:'
         version: 3.12.0
       '@varlet/ui':
-        specifier: ^3.12.0
+        specifier: 'catalog:'
         version: 3.12.0(vue@3.5.13(typescript@5.8.2))
       '@vueuse/core':
         specifier: catalog:frontend
         version: 13.0.0(vue@3.5.13(typescript@5.8.2))
       axios:
-        specifier: ^1.12.2
+        specifier: 'catalog:'
         version: 1.12.2
       file-saver:
-        specifier: ^2.0.5
+        specifier: 'catalog:'
         version: 2.0.5
       nprogress:
         specifier: catalog:frontend
         version: 0.2.0
       papaparse:
-        specifier: ^5.5.3
+        specifier: 'catalog:'
         version: 5.5.3
       pinia:
         specifier: catalog:frontend
@@ -200,7 +231,7 @@ importers:
         specifier: catalog:frontend
         version: 4.5.0(vue@3.5.13(typescript@5.8.2))
       xlsx:
-        specifier: ^0.18.5
+        specifier: 'catalog:'
         version: 0.18.5
     devDependencies:
       '@antfu/eslint-config':
@@ -216,10 +247,10 @@ importers:
         specifier: catalog:build
         version: 3.2.1(markdown-it-async@2.2.0)
       '@types/axios':
-        specifier: ^0.14.4
+        specifier: 'catalog:'
         version: 0.14.4
       '@types/file-saver':
-        specifier: ^2.0.7
+        specifier: 'catalog:'
         version: 2.0.7
       '@types/markdown-it-link-attributes':
         specifier: catalog:types
@@ -228,7 +259,7 @@ importers:
         specifier: catalog:types
         version: 0.2.3
       '@types/papaparse':
-        specifier: ^5.3.16
+        specifier: 'catalog:'
         version: 5.3.16
       '@unocss/eslint-config':
         specifier: catalog:build

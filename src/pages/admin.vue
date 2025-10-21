@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import axios from 'axios'
 import Papa from 'papaparse'
 import { onMounted, ref } from 'vue'
@@ -39,6 +39,91 @@ async function loadData() {
   catch (error: any) {
     console.error('Xato:', error)
     alert('Ma\'lumotlarni yuklashda xato! Sheet public ekanligini tekshiring.')
+  }
+  finally {
+    loading.value = false
+  }
+}
+
+async function refreshData() {
+  localStorage.removeItem('sheetData')
+  await loadData()
+}
+
+onMounted(() => {
+  loadData()
+})
+</script> -->
+
+<script setup lang="ts">
+import axios from 'axios'
+import Papa from 'papaparse'
+import { onMounted, ref } from 'vue'
+
+interface SheetRow {
+  name: string
+  category: string
+  price: string
+}
+
+const data = ref<SheetRow[]>([])
+const headers = ref<string[]>([])
+const loading = ref(false)
+const errorMessage = ref<string | null>(null)
+
+const SPREADSHEET_ID = '1o0nM9qhNUcfrrCMDxdLjT5RRKuZwCeiVRPtgKnnQ6ng'
+const SHEET_NAME = 'Sheet1'
+const CACHE_DURATION = 60 * 60 * 1000 // 1 hour
+
+async function loadData() {
+  const cachedData = localStorage.getItem('sheetData')
+  if (cachedData) {
+    try {
+      const parsed = JSON.parse(cachedData)
+      if (parsed.timestamp && Date.now() - parsed.timestamp < CACHE_DURATION) {
+        headers.value = parsed.headers || []
+        data.value = parsed.data || []
+        return
+      }
+    }
+    catch (error) {
+      console.error('Error parsing cached data:', error)
+      localStorage.removeItem('sheetData')
+    }
+  }
+
+  loading.value = true
+  errorMessage.value = null
+  try {
+    const response = await axios.get(
+      `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${SHEET_NAME}`,
+    )
+    Papa.parse(response.data, {
+      complete: (result: Papa.ParseResult<any>) => {
+        if (result.data && result.data.length > 0) {
+          headers.value = result.data[0] as string[]
+          data.value = result.data.slice(1).map((row: any[]) => ({
+            name: row[0] || '',
+            category: row[1] || '',
+            price: row[2] || '',
+          })) as SheetRow[]
+          localStorage.setItem(
+            'sheetData',
+            JSON.stringify({
+              headers: headers.value,
+              data: data.value,
+              timestamp: Date.now(),
+            }),
+          )
+        }
+      },
+      header: false,
+      skipEmptyLines: true,
+    })
+  }
+  catch (error: any) {
+    console.error('Xato:', error)
+    errorMessage.value = 'Ma\'lumotlarni yuklashda xato! Sheet public ekanligini tekshiring.'
   }
   finally {
     loading.value = false

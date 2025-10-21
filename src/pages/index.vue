@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { StyleProvider, Themes } from '@varlet/ui'
 
+const store = indexStore()
 onMounted(() => {
   if (isDark.value) {
     StyleProvider(Themes.md3Dark)
@@ -12,7 +13,8 @@ onMounted(() => {
 </script>
 
 <template>
+  <Upload />
   <div>
-    test
+    {{ store.getCategoryData('mb') }}
   </div>
 </template>

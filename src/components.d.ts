@@ -14,6 +14,7 @@ declare module 'vue' {
     TheCounter: typeof import('./components/TheCounter.vue')['default']
     TheFooter: typeof import('./components/TheFooter.vue')['default']
     TheInput: typeof import('./components/TheInput.vue')['default']
+    Upload: typeof import('./components/dashboard/upload.vue')['default']
     VarPagination: typeof import('@varlet/ui')['_PaginationComponent']
     VarTable: typeof import('@varlet/ui')['_TableComponent']
   }
