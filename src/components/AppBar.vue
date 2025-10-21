@@ -43,14 +43,14 @@ function handleImageError() {
 <template>
     <q-header reveal>
         <div bg-white dark:bg-gray-800>
-            <div flex flex-wrap items-center justify-between px-24px py-4 mx-auto my-0 max-w-500px>
+            <div flex flex-wrap items-center justify-between px-24px py-2 mx-auto my-0 max-w-500px>
                 <div text-gray>
                     <q-avatar color="indigo" cursor-pointer>
                         <img v-if="user && isImageValid" :src="user?.photo_url" @error="handleImageError">
                     </q-avatar>
                 </div>
                 <div flex>
-                    <div m-2 cursor-pointer px-4 py-2>
+                    <div m-2 cursor-pointer>
                         <div flat text-gray-8 color="white">
                             <div flex items-center gap-2>
                                 <div flex items-center gap-2 text-gray-8>
