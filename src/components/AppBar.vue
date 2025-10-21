@@ -20,27 +20,34 @@ const user = ref<any | null>(null);
 
 // localStorage'dan foydalanuvchi ma'lumotlarini o'qish funksiyasi
 const getUserFromLocalStorage = (): any | null => {
-  const userData = localStorage.getItem('telegram_user');
-  return userData ? JSON.parse(userData) : null;
+    const userData = localStorage.getItem('telegram_user');
+    return userData ? JSON.parse(userData) : null;
 };
 onMounted(() => {
     const lang = localStorage.getItem('language') || 'uz'
     toggleLocales(lang)
     const savedUser = getUserFromLocalStorage();
-  if (savedUser) {
-    user.value = savedUser;
-    console.log('Foydalanuvchi ma\'lumotlari:', savedUser);
-  } else {
-    console.log('localStorage\'da foydalanuvchi ma\'lumotlari topilmadi');
-  }
+    if (savedUser) {
+        user.value = savedUser;
+        console.log('Foydalanuvchi ma\'lumotlari:', savedUser);
+    } else {
+        console.log('localStorage\'da foydalanuvchi ma\'lumotlari topilmadi');
+    }
 })
+const isImageValid = ref(true)
+
+function handleImageError() {
+    isImageValid.value = false
+}
 </script>
 <template>
     <q-header reveal>
         <div bg-white dark:bg-gray-800>
             <div flex flex-wrap items-center justify-between px-24px py-4 mx-auto my-0 max-w-500px>
                 <div text-gray>
-                    {{ user }}
+                    <q-avatar color="indigo" cursor-pointer>
+                        <img v-if="user && isImageValid" :src="user?.photo_url" @error="handleImageError">
+                    </q-avatar>
                 </div>
                 <div flex>
                     <div m-2 cursor-pointer px-4 py-2>
@@ -58,7 +65,7 @@ onMounted(() => {
                                     </div>
                                 </div>
                             </div>
-                            <q-menu>
+                            <q-menu dark:bg-gray-7>
                                 <q-list style="min-width: 100px">
                                     <q-item v-close-popup clickable @click="toggleLocales('uz')">
                                         <q-item-section>

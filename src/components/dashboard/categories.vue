@@ -14,8 +14,8 @@ function showProducts(item: any) {
    <div v-for="(item, index) in categories" :key="index" >
     <q-card p-4 mb-2 dark:bg-gray-7 rounded-2xl @click="showProducts(item)">
       <div flex items-center gap-2>
-        <Icon :icon="item.icon" width="70" height="70"/>
-        <div text-20px>
+        <Icon :icon="item.icon" width="40" height="40" text-gray-6 dark:text-gray-4/>
+        <div text-20px text-gray-6 dark:text-gray-4>
           {{ t(item.title) }}
         </div>
       </div>
