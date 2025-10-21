@@ -18,7 +18,7 @@ interface IState {
 export const indexStore = defineStore('index-store', {
   state: (): IState => ({
     categoriesData: {},
-    categories: ['cpu', 'mb', 'psu', 'ozu'],
+    categories: ['cpu', 'mb', 'psu', 'ozu', 'cooler'],
   }),
   getters: {
     getDataCount(state): Record<string, number> {

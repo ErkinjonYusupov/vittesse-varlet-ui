@@ -12,15 +12,9 @@ const loading = ref(false)
 const errorMessage = ref<string | null>(null)
 
 const SPREADSHEET_ID = '1o0nM9qhNUcfrrCMDxdLjT5RRKuZwCeiVRPtgKnnQ6ng'
-const SHEET_NAMES = {
-  cpu: 'CPU',
-  mb: 'MB',
-  psu: 'PSU',
-  ozu: 'OZU',
-}
 const CACHE_DURATION = 60 * 60 * 1000 // 1 hour
 const store = indexStore()
-async function loadDataForCategory(category: keyof typeof SHEET_NAMES) {
+async function loadDataForCategory(category: string) {
   const cacheKey = `sheetData_${category}`
   store.loadData(category)
   if (store.getCategoryData(category).length > 0) {
@@ -41,7 +35,7 @@ async function loadDataForCategory(category: keyof typeof SHEET_NAMES) {
 
   try {
     const response = await axios.get(
-      `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${SHEET_NAMES[category]}`,
+      `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?tqx=out:csv&sheet=${category}`,
     )
     Papa.parse(response.data, {
       complete: (result: Papa.ParseResult<any>) => {
@@ -79,7 +73,7 @@ async function loadAllData() {
   loading.value = true
   errorMessage.value = null
   try {
-    await Promise.all(store.getCategories.map(category => loadDataForCategory(category as keyof typeof SHEET_NAMES)))
+    await Promise.all(store.getCategories.map(category => loadDataForCategory(category)))
   }
   finally {
     loading.value = false
