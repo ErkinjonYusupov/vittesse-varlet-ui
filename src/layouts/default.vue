@@ -1,6 +1,5 @@
 <template>
   <q-layout view="lhh LpR lff">
-    <AppBar />
     <q-page-container class="page-container ">
       <q-page mb-0 bg-gray-2 dark:bg-gray-900 >
         <router-view #="{ Component, route }" >

@@ -8,6 +8,7 @@ import Categories from '~/components/dashboard/categories.vue'
 <template>
   <Upload />
   <div>
+    <AppBar/>
     <Categories />
   </div>
 </template>
