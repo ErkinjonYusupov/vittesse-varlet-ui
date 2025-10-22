@@ -35,7 +35,7 @@ function searchProduct() {
 onMounted(() => {
   loadData()
 })
-
+const count = ref<number>(0)
 function addCart(item: ISheetRow) {
   const storage = JSON.parse(localStorage.getItem('cart') || '[]')
   const existingItem = storage.find((cartItem: any) => cartItem.product.name === item.name)
@@ -48,12 +48,22 @@ function addCart(item: ISheetRow) {
       count: 1,
     })
   }
+  count.value = storage.length
   localStorage.setItem('cart', JSON.stringify(storage))
 }
+
+function initCartCount() {
+  const cart = JSON.parse(localStorage.getItem('cart') || '[]')
+  count.value = cart.length
+}
+
+onMounted(() => {
+  initCartCount()
+})
 </script>
 
 <template>
-  <AppBar>
+  <AppBar :count="count">
     <div bg-white pb-2 dark:bg-gray-8>
       <div px-4 py-2 text-18px text-gray font-600>
         {{ t(route.query.title as string) }}

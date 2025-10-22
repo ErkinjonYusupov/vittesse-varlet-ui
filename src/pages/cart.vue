@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import { Icon } from '@iconify/vue/dist/iconify.js'
+
 interface IData {
   product: {
     id: string | number
@@ -42,16 +44,24 @@ function deleteProduct(index: number) {
     localStorage.setItem('cart', JSON.stringify(data.value))
   }
 }
+const totoalSum = computed(() => {
+  return data.value.reduce((total: number, el: IData) => total + Number(el.product.price) * el.count, 0)
+})
 </script>
 
 <template>
   <div>
     <AppBar>
-      <div bg-white p-4 text-18px font-600 dark:bg-gray-8>
-        Savatcha
+      <div flex items-center justify-between bg-white p-4 dark:bg-gray-8>
+        <div text-18px font-600>
+          Savatcha
+        </div>
+        <div v-if="totoalSum">
+          <span text-gray>Jami: </span>$ {{ totoalSum }}
+        </div>
       </div>
     </AppBar>
-    <div py-2>
+    <div v-if="data.length" py-2>
       <div v-for="(item, index) in data" :key="item.product.id" mx-2 mb-2 rounded-2xl bg-white p-4 dark:bg-gray-7>
         <div flex items-center justify-between>
           <div>
@@ -68,6 +78,12 @@ function deleteProduct(index: number) {
             @on-tap="action => updateCartQuantity(action, index)"
           />
         </div>
+      </div>
+    </div>
+    <div v-else flex flex-col items-center pt-5 text-center>
+      <Icon icon="material-symbols:production-quantity-limits" mb-4 text-64px text-gray />
+      <div text-gray>
+        Mahsulotlar mavjud emas
       </div>
     </div>
   </div>

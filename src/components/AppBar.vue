@@ -4,6 +4,7 @@ import { Dark } from 'quasar'
 import { useOverlay } from '~/composables/useOverlay'
 import { loadLanguageAsync } from '~/modules/i18n'
 
+const props = defineProps<IProps>()
 const { locale } = useI18n()
 function toggleDarkFun() {
   toggleDark()
@@ -41,6 +42,10 @@ const router = useRouter()
 const route = useRoute()
 function toCart() {
   router.push('/cart')
+}
+
+interface IProps {
+  count?: number
 }
 </script>
 
@@ -98,10 +103,10 @@ function toCart() {
               />
             </q-btn>
             <q-btn v-if="route.path !== '/cart'" flat @click="toCart">
-              <Icon
-                icon="lineicons:cart-1" text-24px
-                color="gray"
-              />
+              <Icon icon="lineicons:cart-1" text-24px color="gray" />
+              <q-badge v-if="props.count" floating color="red" rounded>
+                {{ props.count }}
+              </q-badge>
             </q-btn>
           </div>
         </div>
