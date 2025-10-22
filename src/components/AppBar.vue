@@ -37,6 +37,11 @@ const isImageValid = ref(true)
 function handleImageError() {
   isImageValid.value = false
 }
+const router = useRouter()
+const route = useRoute()
+function toCart() {
+  router.push('/cart')
+}
 </script>
 
 <template>
@@ -54,10 +59,7 @@ function handleImageError() {
               <div flat text-gray-8 color="white">
                 <div flex items-center gap-2>
                   <div flex items-center gap-2 text-gray-8>
-                    <Icon
-                      v-if="locale === 'uz'" icon="emojione:flag-for-uzbekistan" width="24"
-                      height="24"
-                    />
+                    <Icon v-if="locale === 'uz'" icon="emojione:flag-for-uzbekistan" width="24" height="24" />
                     <Icon v-else icon="circle-flags:ru" width="24" height="24" />
                     <div v-if="locale === 'uz'" text-gray>
                       UZ
@@ -92,6 +94,12 @@ function handleImageError() {
             <q-btn flat @click="toggleDarkFun">
               <Icon
                 class="dark:text-gray" :icon="Dark.isActive ? 'carbon-sun' : 'carbon-moon'" text-24px
+                color="gray"
+              />
+            </q-btn>
+            <q-btn v-if="route.path !== '/cart'" flat @click="toCart">
+              <Icon
+                icon="lineicons:cart-1" text-24px
                 color="gray"
               />
             </q-btn>

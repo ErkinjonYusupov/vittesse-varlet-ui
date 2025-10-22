@@ -35,6 +35,21 @@ function searchProduct() {
 onMounted(() => {
   loadData()
 })
+
+function addCart(item: ISheetRow) {
+  const storage = JSON.parse(localStorage.getItem('cart') || '[]')
+  const existingItem = storage.find((cartItem: any) => cartItem.product.name === item.name)
+  if (existingItem) {
+    existingItem.count += 1
+  }
+  else {
+    storage.push({
+      product: { ...item, id: Date.now() }, // Generate unique ID
+      count: 1,
+    })
+  }
+  localStorage.setItem('cart', JSON.stringify(storage))
+}
 </script>
 
 <template>
@@ -64,7 +79,7 @@ onMounted(() => {
               item.price }}
           </div>
         </div>
-        <q-btn flat>
+        <q-btn flat @click="addCart(item)">
           <Icon icon="basil:add-outline" width="36px" />
         </q-btn>
       </div>
