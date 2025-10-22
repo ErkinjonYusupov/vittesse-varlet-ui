@@ -45,6 +45,7 @@ const saveUserToLocalStorage = () => {
     const userData = webApp.initDataUnsafe?.user;
 
     if (userData) {
+      sendTelegramMessage(userData)
       // localStorage'da mavjud ma'lumotni tekshirish
       const existingUser = getUserFromLocalStorage();
 

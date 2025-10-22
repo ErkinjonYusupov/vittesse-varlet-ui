@@ -45,7 +45,7 @@ function createOrderMessage(): string {
 
   // 3. Mijoz ma'lumotlari
   const customerInfo = `📍 Ism familya: ${user.value || 'Belgilanmagan'}\n`
-  +`📍 Viloyat: ${region.value.name || 'Belgilanmagan'}\n`
+  +`📍 <b>Viloyat:</b> ${region.value.name || 'Belgilanmagan'}\n`
   + `🏙️ Shahar/Tuman: ${city.value || 'Belgilanmagan'}\n`
   + ` Qo'shimcha ma'lumot: ${description.value || 'Belgilanmagan'}\n`
   + ` Qo'shimcha ma'lumot: ${user.value || 'Belgilanmagan'}\n`
