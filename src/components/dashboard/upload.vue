@@ -3,7 +3,6 @@ import axios from 'axios'
 import Papa from 'papaparse'
 import { onMounted, ref } from 'vue'
 import { categories } from '~/composables/useCategories'
-import { useOverlay } from '~/composables/useOverlay'
 
 interface SheetRow {
   name: string
@@ -15,7 +14,7 @@ const errorMessage = ref<string | null>(null)
 const SPREADSHEET_ID = import.meta.env.VITE_APP_SPREADSHEET_ID
 const CACHE_DURATION = Number(import.meta.env.VITE_APP_CACHE_DURATION)// 1 hour
 const store = indexStore()
-async function loadDataForCategory(category: string) { 
+async function loadDataForCategory(category: string) {
   const cacheKey = `sheetData_${category}`
   store.loadData(category)
   if (store.getCategoryData(category).length > 0) {
@@ -43,7 +42,7 @@ async function loadDataForCategory(category: string) {
         if (result.data && result.data.length > 0) {
           const headers = result.data[0] as string[]
           const newData = result.data
-            .slice(1)
+            // .slice(1)
             .filter((row: any[]) => row[0] && row[1]) // Filter out invalid rows
             .map((row: any[]) => ({
               name: row[0] || '',
@@ -79,9 +78,6 @@ async function loadAllData() {
     loading.value = false
   }
 }
-
-
-
 
 onMounted(() => {
   loadAllData()
