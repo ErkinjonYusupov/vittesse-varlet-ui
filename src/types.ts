@@ -6,3 +6,12 @@ export interface ISheetRow {
   name: string
   price: string
 }
+
+export interface IData {
+  product: {
+    id: string | number
+    name: string
+    price: string
+  }
+  count: number
+}

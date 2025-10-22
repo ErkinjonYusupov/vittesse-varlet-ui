@@ -1,14 +1,8 @@
 <script lang="ts" setup>
 import { Icon } from '@iconify/vue/dist/iconify.js'
+import { IData } from '~/types'
 
-interface IData {
-  product: {
-    id: string | number
-    name: string
-    price: string
-  }
-  count: number
-}
+
 
 const data = ref<IData[]>([])
 
@@ -47,6 +41,10 @@ function deleteProduct(index: number) {
 const totoalSum = computed(() => {
   return data.value.reduce((total: number, el: IData) => total + Number(el.product.price) * el.count, 0)
 })
+const router = useRouter()
+function toOrdered() {
+  router.push('/ordered')
+}
 </script>
 
 <template>
@@ -56,7 +54,7 @@ const totoalSum = computed(() => {
         <div text-18px font-600 text-gray>
           Savatcha
         </div>
-        <div v-if="totoalSum"text-gray>
+        <div v-if="totoalSum" text-gray>
           Jami: <span font-700>$ {{ totoalSum }}</span>
         </div>
       </div>
@@ -73,11 +71,12 @@ const totoalSum = computed(() => {
                 item.product.price }}
             </div>
           </div>
-          <Counter
-            :initial-value="item.count" :min="1" :max="99"
-            @on-tap="action => updateCartQuantity(action, index)"
-          />
+          <Counter :initial-value="item.count" :min="1" :max="99"
+            @on-tap="action => updateCartQuantity(action, index)" />
         </div>
+      </div>
+      <div px-4>
+        <Button size="large" w-full label="Buyurtma qilish" @click="toOrdered" />
       </div>
     </div>
     <div v-else flex flex-col items-center pt-5 text-center>

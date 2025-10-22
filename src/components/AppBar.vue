@@ -101,7 +101,7 @@ interface IProps {
                 </q-menu>
               </div>
             </div>
-            <q-btn v-if="route.path !== '/cart'" flat @click="toCart">
+            <q-btn v-if="route.path !== '/cart' && route.path !== '/ordered'" flat @click="toCart">
               <Icon icon="lineicons:cart-1" text-24px color="gray" />
               <q-badge v-if="props.count" floating color="red" rounded>
                 {{ props.count }}
