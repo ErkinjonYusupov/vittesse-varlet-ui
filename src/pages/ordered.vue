@@ -58,7 +58,7 @@ function createOrderMessage(): string {
     + `${customerInfo}\n`
     + `⏰ Vaqt: ${new Date().toLocaleString('uz-UZ')}`
 }
-
+const router = useRouter()
 // done() funksiyasini yangilash
 async function done() {
   form.value?.validate().then(async (r: any) => {
@@ -66,7 +66,8 @@ async function done() {
       const message = createOrderMessage()
       sendTelegramMessage(message)
       localStorage.removeItem('cart')
-
+      alert("Buyurtmangiz qabul qilindi")
+      router.replace('/')
     }
   })
 }
