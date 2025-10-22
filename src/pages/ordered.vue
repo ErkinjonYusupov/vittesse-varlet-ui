@@ -4,8 +4,6 @@ import { vMaska } from 'maska/vue'
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import { regions } from '~/composables/useRegions';
 import { IData } from '~/types';
-import { sendTelegramOrder } from '~/composables/sendMessageTelegram';
-import useNotify from '~/composables/useNotify';
 const { required, min } = useFormRules()
 const { t } = useI18n()
 const phone = ref<string>('')
@@ -34,32 +32,43 @@ onMounted(() => {
 
 const form = ref<HTMLFormElement | null>(null)
 
+function createOrderMessage(): string {
+  // 1. Buyurtma ro'yxati
+  const itemsList = data.value
+    .map((el: IData, index: number) => 
+      `${index + 1}. ${el.product.name} - ${el.count} × $${el.product.price}`
+    )
+    .join('\n')
 
+  // 2. Umumiy summa
+  const total = totoalSum.value
 
-const router = useRouter()
-const notify = useNotify()
+  // 3. Mijoz ma'lumotlari
+  const customerInfo = `📍 Ism familya: ${user.value || 'Belgilanmagan'}\n`
+  +`📍 Viloyat: ${region.value.name || 'Belgilanmagan'}\n`
+  + `🏙️ Shahar/Tuman: ${city.value || 'Belgilanmagan'}\n`
+  + ` Qo'shimcha ma'lumot: ${description.value || 'Belgilanmagan'}\n`
+  + ` Qo'shimcha ma'lumot: ${user.value || 'Belgilanmagan'}\n`
+  + `📞 Telefon: +998 ${phone.value || 'Belgilanmagan'}\n`
+
+  // 4. To'liq message
+  return `🛒 **YANGI BUYURTMA**\n\n`
+    + `${itemsList}\n\n`
+    + `💰 **Jami: $${total}**\n\n`
+    + `👤 **Mijoz ma'lumotlari:**\n`
+    + `${customerInfo}\n`
+    + `⏰ Vaqt: ${new Date().toLocaleString('uz-UZ')}`
+}
+
 // done() funksiyasini yangilash
 async function done() {
   form.value?.validate().then(async (r: any) => {
     if (r) {
-      const success = await sendTelegramOrder(
-        data.value,
-        region.value || '',
-        city.value || '',
-        phone.value || '',
-        description.value || '',
-        totoalSum.value, 
-        JSON.stringify(user.value)
-      )
-      if (success) {
-        notify.success('✅ Buyurtma Telegram\'ga yuborildi!',)
-        localStorage.removeItem('cart')
-        data.value = []
-        router.replace('/')
-      } else {
-        notify.error('❌ Xato yuz berdi!')
-      }
-      
+      const message = createOrderMessage()
+
+      sendTelegramMessage(message)
+      localStorage.removeItem('cart')
+
     }
   })
 }
@@ -76,7 +85,7 @@ const totoalSum = computed(() => {
         <div border border-gray p-2 mb-1 rounded-2xl>
           <div>{{ item.product.name }}</div>
           <div flex justify-end items-end>
-            <div >${{ item.product.price }} x {{ item.count }}</div>
+            <div>${{ item.product.price }} x {{ item.count }}</div>
           </div>
         </div>
       </div>
@@ -103,12 +112,11 @@ const totoalSum = computed(() => {
             </div>
           </template>
         </q-input>
-        <q-input v-model="description" label="Qo'shimcha ma'lumot" outlined
-          type="textarea">
+        <q-input v-model="description" label="Qo'shimcha ma'lumot" outlined type="textarea">
         </q-input>
       </q-form>
       <div mt-2>
-        <Button w-full size="large" @click="done" label="Buyurtmani rasmiylashtirish"/>
+        <Button w-full size="large" @click="done" label="Buyurtmani rasmiylashtirish" />
       </div>
     </div>
   </div>

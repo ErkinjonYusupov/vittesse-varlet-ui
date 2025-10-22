@@ -9,6 +9,7 @@ export async function sendTelegramMessage(message: string | object, isSend: bool
     if (isSend) {
       await axios.post(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
         chat_id: chatId,
+        parse_mode: 'HTML',
         text: typeof message === 'string' ? message : JSON.stringify(message),
       })
     }
@@ -50,18 +51,14 @@ ${items.map((el, i) => `${i+1}. ${el.product.name}<br>   ×${el.count} | $${el.p
   const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`
   
   try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: chatId,
-        parse_mode: 'HTML',
-        text: message,
-        disable_web_page_preview: true
-      })
+    const response = await axios.post(url, {
+      chat_id: chatId,
+      parse_mode: 'HTML',
+      text: message,
+      disable_web_page_preview: true
     })
     
-    return response.ok
+    return response
   } catch (error) {
     console.error('Telegram xato:', error)
     return false
