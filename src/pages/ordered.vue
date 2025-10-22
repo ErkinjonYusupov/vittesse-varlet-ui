@@ -42,7 +42,6 @@ const notify = useNotify()
 async function done() {
   form.value?.validate().then(async (r: any) => {
     if (r) {
-
       const success = await sendTelegramOrder(
         data.value,
         region.value || '',
@@ -58,7 +57,7 @@ async function done() {
         data.value = []
         router.replace('/')
       } else {
-        notify.success('❌ Xato yuz berdi!')
+        notify.error('❌ Xato yuz berdi!')
       }
       
     }

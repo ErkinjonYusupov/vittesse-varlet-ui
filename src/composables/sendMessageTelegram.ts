@@ -43,6 +43,7 @@ ${items.map((el, i) => `${i+1}. ${el.product.name}<br>   ×${el.count} | $${el.p
 🏘️ ${city}
 🏘️ ${description}
 📱 <b>+998 ${phone}</b>
+📱 <b>${user}</b>
 
 ⏰ <code>${new Date().toLocaleString('uz-UZ')}</code>`
 
