@@ -54,10 +54,15 @@ interface IProps {
     <div>
       <div bg-white dark:bg-gray-800>
         <div mx-auto my-0 max-w-500px flex flex-wrap items-center justify-between py-2 pl-24px>
-          <div text-gray>
-            <q-avatar color="indigo" cursor-pointer>
-              <img v-if="user && isImageValid" :src="user?.photo_url" @error="handleImageError">
-            </q-avatar>
+          <div>
+            <div text-gray>
+              <q-avatar color="indigo" cursor-pointer>
+                <img v-if="user && isImageValid" :src="user?.photo_url" @error="handleImageError">
+              </q-avatar>
+            </div>
+            <div v-if="user && user.id">
+              ID: {{ user.id }}
+            </div>
           </div>
           <div flex>
             <div m-2 cursor-pointer>
@@ -102,13 +107,11 @@ interface IProps {
                 {{ props.count }}
               </q-badge>
             </q-btn>
-            <q-btn flat @click="toggleDarkFun" dense>
-              <Icon
-                class="dark:text-gray" :icon="Dark.isActive ? 'carbon-sun' : 'carbon-moon'" text-24px
-                color="gray"
-              />
+            <q-btn flat @click="toggleDarkFun">
+              <Icon class="dark:text-gray" :icon="Dark.isActive ? 'carbon-sun' : 'carbon-moon'" text-24px
+                color="gray" />
             </q-btn>
-            
+
           </div>
         </div>
       </div>
