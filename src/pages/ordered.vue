@@ -4,12 +4,21 @@ import { vMaska } from 'maska/vue'
 import { Icon } from '@iconify/vue/dist/iconify.js'
 import { regions } from '~/composables/useRegions';
 import { IData } from '~/types';
+import { sendTelegramOrder } from '~/composables/sendMessageTelegram';
+import useNotify from '~/composables/useNotify';
 const { required, min } = useFormRules()
 const { t } = useI18n()
 const phone = ref<string>('')
 const region = ref<any>(null)
 const city = ref<string>('')
 const description = ref<string>('')
+const user = ref<any | null>(null)
+
+// localStorage'dan foydalanuvchi ma'lumotlarini o'qish funksiyasi
+function getUserFromLocalStorage(): any | null {
+  const userData = localStorage.getItem('telegram_user')
+  return userData ? JSON.parse(userData) : null
+}
 
 
 const data = ref<IData[]>([])
@@ -20,44 +29,38 @@ function init() {
 
 onMounted(() => {
   init()
+  getUserFromLocalStorage()
 })
 
 const form = ref<HTMLFormElement | null>(null)
 
 
-function createOrderMessage(): string {
-  // 1. Buyurtma ro'yxati
-  const itemsList = data.value
-    .map((el: IData, index: number) => 
-      `${index + 1}. ${el.product.name} - ${el.count} × $${el.product.price}`
-    )
-    .join('\n')
 
-  // 2. Umumiy summa
-  const total = totoalSum.value
-
-  // 3. Mijoz ma'lumotlari
-  const customerInfo = `📍 Viloyat: ${region.value.name || 'Belgilanmagan'}\n`
-  + `🏙️ Shahar/Tuman: ${city.value || 'Belgilanmagan'}\n`
-  + ` Qo'shimcha ma'lumot: ${city.value || 'Belgilanmagan'}\n`
-  + `📞 Telefon: +998 ${phone.value || 'Belgilanmagan'}\n`
-
-  // 4. To'liq message
-  return `🛒 **YANGI BUYURTMA**\n\n`
-    + `${itemsList}\n\n`
-    + `💰 **Jami: $${total}**\n\n`
-    + `👤 **Mijoz ma'lumotlari:**\n`
-    + `${customerInfo}\n`
-    + `⏰ Vaqt: ${new Date().toLocaleString('uz-UZ')}`
-}
-
+const router = useRouter()
+const notify = useNotify()
 // done() funksiyasini yangilash
 async function done() {
   form.value?.validate().then(async (r: any) => {
     if (r) {
-      const message = createOrderMessage()
-      sendTelegramMessage(message)
-      alert('Buyurtma muvaffaqiyatli yuborildi!') // Test uchun
+
+      const success = await sendTelegramOrder(
+        data.value,
+        region.value || '',
+        city.value || '',
+        phone.value || '',
+        description.value || '',
+        totoalSum.value, 
+        JSON.stringify(user.value)
+      )
+      if (success) {
+        notify.success('✅ Buyurtma Telegram\'ga yuborildi!',)
+        localStorage.removeItem('cart')
+        data.value = []
+        router.replace('/')
+      } else {
+        notify.success('❌ Xato yuz berdi!')
+      }
+      
     }
   })
 }

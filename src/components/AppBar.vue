@@ -54,13 +54,13 @@ interface IProps {
     <div>
       <div bg-white dark:bg-gray-800>
         <div mx-auto my-0 max-w-500px flex flex-wrap items-center justify-between py-2 pl-24px>
-          <div>
+          <div flex items-center>
             <div text-gray>
               <q-avatar color="indigo" cursor-pointer>
                 <img v-if="user && isImageValid" :src="user?.photo_url" @error="handleImageError">
               </q-avatar>
             </div>
-            <div v-if="user && user.id">
+            <div v-if="user && user.id" text-gray>
               ID: {{ user.id }}
             </div>
           </div>
