@@ -44,11 +44,10 @@ function createOrderMessage(): string {
   const total = totoalSum.value
 
   // 3. Mijoz ma'lumotlari
-  const customerInfo = `📍 Ism familya: ${user.value || 'Belgilanmagan'}\n`
+  const customerInfo = `📍 Ism familya: ${user.value && user.value.first_name +' '+ user.value.last_name || 'Belgilanmagan'}\n`
   +`📍 <b>Viloyat:</b> ${region.value.name || 'Belgilanmagan'}\n`
   + `🏙️ Shahar/Tuman: ${city.value || 'Belgilanmagan'}\n`
   + ` Qo'shimcha ma'lumot: ${description.value || 'Belgilanmagan'}\n`
-  + ` Qo'shimcha ma'lumot: ${user.value || 'Belgilanmagan'}\n`
   + `📞 Telefon: +998 ${phone.value || 'Belgilanmagan'}\n`
 
   // 4. To'liq message
