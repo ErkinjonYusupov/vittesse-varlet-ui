@@ -96,18 +96,19 @@ interface IProps {
                 </q-menu>
               </div>
             </div>
-            <q-btn flat @click="toggleDarkFun">
-              <Icon
-                class="dark:text-gray" :icon="Dark.isActive ? 'carbon-sun' : 'carbon-moon'" text-24px
-                color="gray"
-              />
-            </q-btn>
             <q-btn v-if="route.path !== '/cart'" flat @click="toCart">
               <Icon icon="lineicons:cart-1" text-24px color="gray" />
               <q-badge v-if="props.count" floating color="red" rounded>
                 {{ props.count }}
               </q-badge>
             </q-btn>
+            <q-btn flat @click="toggleDarkFun" dense>
+              <Icon
+                class="dark:text-gray" :icon="Dark.isActive ? 'carbon-sun' : 'carbon-moon'" text-24px
+                color="gray"
+              />
+            </q-btn>
+            
           </div>
         </div>
       </div>

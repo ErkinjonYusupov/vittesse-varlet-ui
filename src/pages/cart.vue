@@ -53,11 +53,11 @@ const totoalSum = computed(() => {
   <div>
     <AppBar>
       <div flex items-center justify-between bg-white p-4 dark:bg-gray-8>
-        <div text-18px font-600>
+        <div text-18px font-600 text-gray>
           Savatcha
         </div>
-        <div v-if="totoalSum">
-          <span text-gray>Jami: </span>$ {{ totoalSum }}
+        <div v-if="totoalSum"text-gray>
+          Jami: <span font-700>$ {{ totoalSum }}</span>
         </div>
       </div>
     </AppBar>

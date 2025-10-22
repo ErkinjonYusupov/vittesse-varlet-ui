@@ -48,6 +48,7 @@ async function loadDataForCategory(category: string) {
               name: row[0] || '',
               price: row[1] || '',
             })) as SheetRow[]
+          localStorage.removeItem('cart')
           localStorage.setItem(
             cacheKey,
             JSON.stringify({

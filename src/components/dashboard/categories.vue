@@ -12,16 +12,27 @@ function showProducts(item: any) {
 <template>
  <div mx-auto my-0 max-w-500px p-2>
    <div v-for="(item, index) in categories" :key="index" >
-    <div bg-white dark:bg-gray-7 mb-2 p-4 mx-2 rounded-2xl @click="showProducts(item)">
-      <div flex items-center gap-2>
-        <Icon :icon="item.icon" width="40" height="40" text-gray-6 dark:text-gray-4/>
-        <div text-20px text-gray-6 dark:text-gray-4>
+    <div bg-white dark:bg-gray-7 mb-2 p-5 mx-2 rounded-2xl @click="showProducts(item)">
+      <div flex justify-between items-center>
+        <div flex items-center gap-2>
+        <Icon :icon="item.icon" width="40" height="40" />
+        <div text-20px >
           {{ t(item.title) }}
         </div>
+      </div>
+      <div class="rounded-full p-1" bg-gray-5>
+        <Icon icon="mingcute:right-fill" color="white" text-24px/>
+      </div>
       </div>
     </div>
   </div>
  </div>
 </template>
+
+<!-- <style>
+.bg-gradient{
+  @apply bg-gradient-to-br from-#C029DD to-#A825CB text-white;
+}
+</style> -->
 
 
