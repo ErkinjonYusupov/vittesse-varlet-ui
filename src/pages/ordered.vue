@@ -15,7 +15,7 @@ const user = ref<any | null>(null)
 // localStorage'dan foydalanuvchi ma'lumotlarini o'qish funksiyasi
 function getUserFromLocalStorage(): any | null {
   const userData = localStorage.getItem('telegram_user')
-  return userData ? JSON.parse(userData) : null
+  user.value = userData ? JSON.parse(userData) : null
 }
 
 
@@ -44,7 +44,7 @@ function createOrderMessage(): string {
   const total = totoalSum.value
 
   // 3. Mijoz ma'lumotlari
-  const customerInfo = `📍 Ism familya: ${user.value && user.value.first_name +' '+ user.value.last_name || 'Belgilanmagan'}\n`
+  const customerInfo = `👤  Ism familya: ${user.value && user.value.first_name+'' +user.value.last_name || 'Belgilanmagan'}\n`
   +`📍 <b>Viloyat:</b> ${region.value.name || 'Belgilanmagan'}\n`
   + `🏙️ Shahar/Tuman: ${city.value || 'Belgilanmagan'}\n`
   + ` Qo'shimcha ma'lumot: ${description.value || 'Belgilanmagan'}\n`
@@ -64,7 +64,6 @@ async function done() {
   form.value?.validate().then(async (r: any) => {
     if (r) {
       const message = createOrderMessage()
-
       sendTelegramMessage(message)
       localStorage.removeItem('cart')
 
