@@ -1,7 +1,6 @@
 <script lang="ts" setup>
+import type { IData } from '~/types'
 import { Icon } from '@iconify/vue/dist/iconify.js'
-import { IData } from '~/types'
-
 
 const { t } = useI18n()
 const data = ref<IData[]>([])
@@ -45,14 +44,13 @@ const router = useRouter()
 function toOrdered() {
   router.push('/ordered')
 }
-
 </script>
 
 <template>
   <div>
     <AppBar>
       <div flex items-center justify-between bg-white p-4 dark:bg-gray-8>
-        <div text-18px font-600 text-gray>
+        <div text-18px text-gray font-600>
           {{ t('tr32') }}
         </div>
         <div v-if="totoalSum" text-gray>
@@ -61,23 +59,29 @@ function toOrdered() {
       </div>
     </AppBar>
     <div v-if="data.length" py-2>
-      <div v-for="(item, index) in data" :key="item.product.id" mx-2 mb-2 rounded-2xl bg-white p-4 dark:bg-gray-7>
-        <div flex items-center justify-between>
-          <div>
-            <div font-700>
-              {{ item.product.name }}
+      <div v-for="(item, index) in data" :key="item.product.id">
+        <AnimationDivTwo :index="index" mx-2 mb-2 rounded-2xl bg-white p-4 dark:bg-gray-7>
+          <div flex items-center justify-between>
+            <div>
+              <div font-700>
+                {{ item.product.name }}
+              </div>
+              <div mt-2 inline-block border border-green-5 rounded-10px px-3 text-green-6 font-600>
+                $ {{
+                  item.product.price }}
+              </div>
             </div>
-            <div mt-2 inline-block border border-green-5 rounded-10px px-3 text-green-6 font-600>
-              $ {{
-                item.product.price }}
-            </div>
+            <Counter
+              :initial-value="item.count" :min="1" :max="99"
+              @on-tap="action => updateCartQuantity(action, index)"
+            />
           </div>
-          <Counter :initial-value="item.count" :min="1" :max="99"
-            @on-tap="action => updateCartQuantity(action, index)" />
-        </div>
+        </AnimationDivTwo>
       </div>
       <div px-4>
-        <Button size="large" w-full :label="t('tr34')" @click="toOrdered" />
+        <AnimationDivTwo :index="data.length">
+          <Button size="large" w-full :label="t('tr34')" @click="toOrdered" />
+        </AnimationDivTwo>
       </div>
     </div>
     <div v-else flex flex-col items-center pt-5 text-center>
