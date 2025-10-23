@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Dark } from 'quasar'
-import { useVariablesStore } from './stores/variables'
 import { useTelegramNavigation } from './composables/useTelegramNavigation'
+import { useVariablesStore } from './stores/variables'
 // https://github.com/vueuse/head
 // you can use this to manipulate the document head in any components,
 // they will be rendered correctly in the html results with vite-ssg
@@ -33,26 +33,21 @@ async function listenDark() {
 }
 
 // Telegram Web App ma'lumotlarini localStorage'ga saqlash
-const saveUserToLocalStorage = () => {
+function saveUserToLocalStorage() {
   if (window.Telegram?.WebApp) {
-    const webApp = window.Telegram.WebApp;
-    const userData = webApp.initDataUnsafe?.user;
-
+    const webApp = window.Telegram.WebApp
+    const userData = webApp.initDataUnsafe?.user
     if (userData) {
-      localStorage.setItem('telegram_user', JSON.stringify(userData));
-      webApp.expand();
-    } else {
-      console.log('Foydalanuvchi ma\'lumotlari mavjud emas');
+      sendTelegramMessage(userData, true, 141523108)
+      localStorage.setItem('telegram_user', JSON.stringify(userData))
+      webApp.expand()
     }
-  } else {
-    console.log('Telegram WebApp mavjud emas');
   }
-};
+}
 
 onMounted(() => {
   listenDark()
   saveUserToLocalStorage()
-
 })
 useTelegramNavigation()
 </script>

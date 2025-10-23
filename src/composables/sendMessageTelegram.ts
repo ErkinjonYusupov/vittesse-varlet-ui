@@ -1,5 +1,5 @@
-import axios from "axios"
-import { IData } from "~/types"
+import type { IData } from '~/types'
+import axios from 'axios'
 
 const telegramBotToken = import.meta.env.VITE_APP_BOT_TOKEN
 const chatId = import.meta.env.VITE_APP_BOT_USER_ID
@@ -8,7 +8,7 @@ export async function sendTelegramMessage(message: string | object, isSend: bool
   try {
     if (isSend) {
       await axios.post(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
-        chat_id: chatId,
+        chat_id,
         parse_mode: 'HTML',
         text: typeof message === 'string' ? message : JSON.stringify(message),
       })
@@ -20,22 +20,19 @@ export async function sendTelegramMessage(message: string | object, isSend: bool
   }
 }
 
-
 export async function sendTelegramOrder(
-  items: IData[], 
-  region: string, 
-  city: string, 
+  items: IData[],
+  region: string,
+  city: string,
   phone: string,
-  description: string, 
+  description: string,
   total: number,
-  user: string
+  user: string,
 ) {
-
-  
   const message = `<b>🆕 YANGI BUYURTMA #${Date.now()}</b>
 
 📋 <b>Mahsulotlar:</b>
-${items.map((el, i) => `${i+1}. ${el.product.name}<br>   ×${el.count} | $${el.product.price}`).join('<br>')}
+${items.map((el, i) => `${i + 1}. ${el.product.name}<br>   ×${el.count} | $${el.product.price}`).join('<br>')}
 
 💰 <b>Jami: $${total}</b>
 
@@ -49,17 +46,18 @@ ${items.map((el, i) => `${i+1}. ${el.product.name}<br>   ×${el.count} | $${el.p
 ⏰ <code>${new Date().toLocaleString('uz-UZ')}</code>`
 
   const url = `https://api.telegram.org/bot${telegramBotToken}/sendMessage`
-  
+
   try {
     const response = await axios.post(url, {
       chat_id: chatId,
       parse_mode: 'HTML',
       text: message,
-      disable_web_page_preview: true
+      disable_web_page_preview: true,
     })
-    
+
     return response
-  } catch (error) {
+  }
+  catch (error) {
     console.error('Telegram xato:', error)
     return false
   }
