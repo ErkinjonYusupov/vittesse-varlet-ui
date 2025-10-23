@@ -31,6 +31,7 @@ function searchProduct() {
     data.value = [...originalData.value] // Reset to original data
   }
 }
+const notify = useNotify()
 
 onMounted(() => {
   loadData()
@@ -50,6 +51,7 @@ function addCart(item: ISheetRow) {
   }
   count.value = storage.length
   localStorage.setItem('cart', JSON.stringify(storage))
+  notify.success(t('tr35'))
 }
 
 function initCartCount() {
