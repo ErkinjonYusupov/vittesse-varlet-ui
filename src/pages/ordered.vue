@@ -44,7 +44,7 @@ function createOrderMessage(): string {
   const total = totoalSum.value
 
   // 3. Mijoz ma'lumotlari
-  const customerInfo = `👤  Ism familya: ${user.value && user.value.first_name+'' +user.value.last_name || 'Belgilanmagan'}\n`
+  const customerInfo = `👤  Ism familya: ${user.value && user.value.first_name|| 'Belgilanmagan'} ${user.value && user.value.last_name|| 'Belgilanmagan'}\n`
   +`📍 <b>Viloyat:</b> ${region.value.name || 'Belgilanmagan'}\n`
   + `🏙️ Shahar/Tuman: ${city.value || 'Belgilanmagan'}\n`
   + ` Qo'shimcha ma'lumot: ${description.value || 'Belgilanmagan'}\n`

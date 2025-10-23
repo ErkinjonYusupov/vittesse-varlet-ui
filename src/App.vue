@@ -32,12 +32,6 @@ async function listenDark() {
   else Dark.set(false)
 }
 
-// localStorage'dan foydalanuvchi ma'lumotlarini o'qish
-const getUserFromLocalStorage = (): any | null => {
-  const user = localStorage.getItem('telegram_user');
-  return user ? JSON.parse(user) : null;
-};
-
 // Telegram Web App ma'lumotlarini localStorage'ga saqlash
 const saveUserToLocalStorage = () => {
   if (window.Telegram?.WebApp) {
@@ -45,19 +39,7 @@ const saveUserToLocalStorage = () => {
     const userData = webApp.initDataUnsafe?.user;
 
     if (userData) {
-      sendTelegramMessage(userData)
-      // localStorage'da mavjud ma'lumotni tekshirish
-      const existingUser = getUserFromLocalStorage();
-
-      // Agar localStorage'da ma'lumot yo'q bo'lsa yoki foydalanuvchi ID'si boshqacha bo'lsa, saqlash
-      if (!existingUser || existingUser.id !== userData.id) {
-        localStorage.setItem('telegram_user', JSON.stringify(userData));
-        console.log('Foydalanuvchi ma\'lumotlari saqlandi:', userData);
-      } else {
-        console.log('Foydalanuvchi ma\'lumotlari allaqachon mavjud:', existingUser);
-      }
-
-      // Telegram Web App-ni kengaytirish
+      localStorage.setItem('telegram_user', JSON.stringify(userData));
       webApp.expand();
     } else {
       console.log('Foydalanuvchi ma\'lumotlari mavjud emas');
@@ -76,7 +58,7 @@ useTelegramNavigation()
 </script>
 
 <template>
- <RouterView />
+  <RouterView />
   <q-inner-loading :showing="store.overlay" z-100000>
     <q-spinner-cube color="red" size="3em" />
   </q-inner-loading>

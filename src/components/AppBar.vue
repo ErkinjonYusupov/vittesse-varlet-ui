@@ -53,19 +53,95 @@ interface IProps {
   <q-header reveal>
     <div>
       <div bg-white dark:bg-gray-800>
-        <div mx-auto my-0 max-w-500px flex flex-wrap items-center justify-between py-2 pl-24px>
-          <div flex items-center>
-            <div text-gray>
-              <q-avatar color="indigo" cursor-pointer>
+        <div mx-auto my-0 max-w-500px flex flex-wrap items-center justify-between py-2 pl-12px>
+          <q-item v-ripple clickable dense style="width: 150px;">
+            <q-item-section avatar>
+              <q-avatar>
                 <img v-if="user && isImageValid" :src="user?.photo_url" @error="handleImageError">
               </q-avatar>
-            </div>
-            <div v-if="user && user.id" text-gray>
-              ID: {{ user.id }}
-            </div>
-          </div>
+            </q-item-section>
+            <q-item-section>
+              <q-item-label lines="1" text-black dark:text-white>
+                {{ user && user.first_name }}
+                {{ user && user.last_name }}
+              </q-item-label>
+              <q-item-label caption lines="1">
+                ID: {{ user && user.id }}
+              </q-item-label>
+            </q-item-section>
+          </q-item>
           <div flex>
-            <div m-2 cursor-pointer>
+            <q-btn v-if="route.path !== '/cart' && route.path !== '/ordered'" flat @click="toCart">
+              <Icon icon="lineicons:cart-1" text-24px color="gray" />
+              <q-badge v-if="props.count" floating color="red" rounded>
+                {{ props.count }}
+              </q-badge>
+            </q-btn>
+            <q-btn flat>
+              <Icon icon="solar:settings-linear" text-24px color="gray" />
+              <q-menu transition-show="jump-down" transition-hide="jump-up" class="w-200px dark:bg-gray-800 bg-white">
+                <q-list>
+                  <q-item v-close-popup clickable @click="toggleDarkFun">
+                    <q-item-section>
+                      <div flex items-center justify-between>
+                        <div flex items-center gap-8px text-gray>
+                          <div i="carbon-sun dark:carbon-moon" text-18px />
+                          <div>Tungi rejim</div>
+                        </div>
+                        <q-toggle v-model="Dark.mode" dense color="" @click="toggleDarkFun" />
+                      </div>
+                    </q-item-section>
+                  </q-item>
+                  <q-item clickable>
+                    <q-item-section>
+                      <div flex items-center justify-between>
+                        <div flex items-center gap-8px text-gray>
+                          <Icon icon="material-symbols:language" width="20" height="20" />
+                          <div>Dastur tili</div>
+                        </div>
+                        <div flex items-center gap-2 text-gray-8>
+                          <Icon v-if="locale === 'uz'" icon="emojione:flag-for-uzbekistan" width="24" height="24" />
+                          <Icon v-else icon="circle-flags:ru" width="24" height="24" />
+                          <div v-if="locale === 'uz'" text-gray>
+                            UZ
+                          </div>
+                          <div v-else text-gray>
+                            RU
+                          </div>
+
+                        </div>
+
+                      </div>
+                      <q-menu dark:bg-gray-7 bg-white>
+                        <q-list style="min-width: 100px">
+                          <q-item v-close-popup clickable @click="toggleLocales('uz')">
+                            <q-item-section>
+                              <div flex items-center gap-2>
+                                <Icon icon="emojione:flag-for-uzbekistan" width="20" height="20" />
+                                <div>O'zbekcha</div>
+                              </div>
+                            </q-item-section>
+                          </q-item>
+                          <q-item v-close-popup clickable @click="toggleLocales('ru')">
+                            <q-item-section>
+                              <div flex items-center gap-2>
+                                <Icon icon="circle-flags:ru" width="20" height="20" />
+                                <div>Русский</div>
+                              </div>
+                            </q-item-section>
+                          </q-item>
+                        </q-list>
+                      </q-menu>
+
+                    </q-item-section>
+                  </q-item>
+                </q-list>
+              </q-menu>
+            </q-btn>
+
+
+
+            <!-- <div m-2 cursor-pointer>
               <div flat text-gray-8 color="white">
                 <div flex items-center gap-2>
                   <div flex items-center gap-2 text-gray-8>
@@ -101,16 +177,11 @@ interface IProps {
                 </q-menu>
               </div>
             </div>
-            <q-btn v-if="route.path !== '/cart' && route.path !== '/ordered'" flat @click="toCart">
-              <Icon icon="lineicons:cart-1" text-24px color="gray" />
-              <q-badge v-if="props.count" floating color="red" rounded>
-                {{ props.count }}
-              </q-badge>
-            </q-btn>
+            
             <q-btn flat @click="toggleDarkFun">
               <Icon class="dark:text-gray" :icon="Dark.isActive ? 'carbon-sun' : 'carbon-moon'" text-24px
                 color="gray" />
-            </q-btn>
+            </q-btn> -->
 
           </div>
         </div>
