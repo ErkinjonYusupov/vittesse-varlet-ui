@@ -53,8 +53,8 @@ interface IProps {
   <q-header reveal>
     <div>
       <div bg-white dark:bg-gray-800>
-        <div mx-auto my-0 max-w-500px flex flex-wrap items-center justify-between py-2 pl-12px>
-          <q-item v-ripple clickable dense style="width: 150px;">
+        <div mx-auto my-0 max-w-500px flex flex-wrap items-center justify-between py-2>
+          <q-item v-ripple clickable dense style="width: 250px;">
             <q-item-section avatar>
               <q-avatar>
                 <img v-if="user && isImageValid" :src="user?.photo_url" @error="handleImageError">
@@ -79,8 +79,8 @@ interface IProps {
             </q-btn>
             <q-btn flat>
               <Icon icon="solar:settings-linear" text-24px color="gray" />
-              <q-menu transition-show="jump-down" transition-hide="jump-up" class="w-200px dark:bg-gray-800 bg-white">
-                <q-list>
+              <q-menu transition-show="jump-down" transition-hide="jump-up" class="w-250px dark:bg-gray-800 bg-white">
+                <q-list dark:bg-gray-800 bg-white>
                   <q-item v-close-popup clickable @click="toggleDarkFun">
                     <q-item-section>
                       <div flex items-center justify-between>
@@ -108,12 +108,10 @@ interface IProps {
                           <div v-else text-gray>
                             RU
                           </div>
-
                         </div>
-
                       </div>
                       <q-menu dark:bg-gray-7 bg-white>
-                        <q-list style="min-width: 100px">
+                        <q-list style="min-width: 200px">
                           <q-item v-close-popup clickable @click="toggleLocales('uz')">
                             <q-item-section>
                               <div flex items-center gap-2>
@@ -132,57 +130,11 @@ interface IProps {
                           </q-item>
                         </q-list>
                       </q-menu>
-
                     </q-item-section>
                   </q-item>
                 </q-list>
               </q-menu>
             </q-btn>
-
-
-
-            <!-- <div m-2 cursor-pointer>
-              <div flat text-gray-8 color="white">
-                <div flex items-center gap-2>
-                  <div flex items-center gap-2 text-gray-8>
-                    <Icon v-if="locale === 'uz'" icon="emojione:flag-for-uzbekistan" width="24" height="24" />
-                    <Icon v-else icon="circle-flags:ru" width="24" height="24" />
-                    <div v-if="locale === 'uz'" text-gray>
-                      UZ
-                    </div>
-                    <div v-else text-gray>
-                      RU
-                    </div>
-                  </div>
-                </div>
-                <q-menu dark:bg-gray-7>
-                  <q-list style="min-width: 100px">
-                    <q-item v-close-popup clickable @click="toggleLocales('uz')">
-                      <q-item-section>
-                        <div flex items-center gap-2>
-                          <Icon icon="emojione:flag-for-uzbekistan" width="20" height="20" />
-                          <div>O'zbekcha</div>
-                        </div>
-                      </q-item-section>
-                    </q-item>
-                    <q-item v-close-popup clickable @click="toggleLocales('ru')">
-                      <q-item-section>
-                        <div flex items-center gap-2>
-                          <Icon icon="circle-flags:ru" width="20" height="20" />
-                          <div>Русский</div>
-                        </div>
-                      </q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-menu>
-              </div>
-            </div>
-            
-            <q-btn flat @click="toggleDarkFun">
-              <Icon class="dark:text-gray" :icon="Dark.isActive ? 'carbon-sun' : 'carbon-moon'" text-24px
-                color="gray" />
-            </q-btn> -->
-
           </div>
         </div>
       </div>
