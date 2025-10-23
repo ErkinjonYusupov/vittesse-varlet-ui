@@ -57,7 +57,7 @@ function setupDragScroll() {
           ]"
           mr-2 @click="store.setFirmFilter(null)"
         >
-          {{ t('tr37') }}
+          {{ t('tr37').toUpperCase() }}
         </div>
         <div v-for="firm in categoryFirmsMap[route.query.key as string]" :key="firm" class="news-card-wrapper">
           <div
