@@ -12,6 +12,8 @@ declare module 'vue' {
     Button: typeof import('./components/button.vue')['default']
     Categories: typeof import('./components/dashboard/categories.vue')['default']
     Counter: typeof import('./components/counter.vue')['default']
+    ProductHeader: typeof import('./components/product/product-header.vue')['default']
+    ProductsItems: typeof import('./components/product/products-items.vue')['default']
     README: typeof import('./components/README.md')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
