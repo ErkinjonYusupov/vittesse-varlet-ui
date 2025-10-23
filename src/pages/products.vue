@@ -4,6 +4,7 @@ import { useProducts } from '~/stores/products'
 const store = useProducts()
 const route = useRoute()
 onMounted(() => {
+  store.search = ''
   store.loadData(route.query.key as string)
   store.initCartCount()
 })
