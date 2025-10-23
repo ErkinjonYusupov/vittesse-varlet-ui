@@ -14,20 +14,22 @@ function addCart(item: any) {
 <template>
   <div>
     <div v-if="store.data.length">
-      <div v-for="item in store.data" :key="item.name" mx-2 mb-2 rounded-2xl bg-white p-4 dark:bg-gray-7>
-        <div flex items-center justify-between>
-          <div>
-            <div text-18px font-700>
-              {{ item.name }}
+      <div v-for="(item, index) in store.data" :key="item.name">
+        <AnimationDivTwo :index="index" mx-2 mb-2 rounded-2xl bg-white p-4 dark:bg-gray-7>
+          <div flex items-center justify-between>
+            <div>
+              <div text-18px font-700>
+                {{ item.name }}
+              </div>
+              <div mt-2 inline-block border border-green-5 rounded-10px px-3 text-16px text-green-6 font-600>
+                $ {{ item.price }}
+              </div>
             </div>
-            <div mt-2 inline-block border border-green-5 rounded-10px px-3 text-16px text-green-6 font-600>
-              $ {{ item.price }}
-            </div>
+            <q-btn flat @click="addCart(item)">
+              <Icon icon="basil:add-outline" width="36px" />
+            </q-btn>
           </div>
-          <q-btn flat @click="addCart(item)">
-            <Icon icon="basil:add-outline" width="36px" />
-          </q-btn>
-        </div>
+        </AnimationDivTwo>
       </div>
     </div>
     <div v-else py-5 text-center text-gray>

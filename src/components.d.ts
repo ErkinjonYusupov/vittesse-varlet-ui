@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AnimationDivTwo: typeof import('./components/base/animation-div-two.vue')['default']
     AppBar: typeof import('./components/AppBar.vue')['default']
     Button: typeof import('./components/button.vue')['default']
     Categories: typeof import('./components/dashboard/categories.vue')['default']
