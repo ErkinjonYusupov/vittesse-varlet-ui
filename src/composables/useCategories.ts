@@ -1,4 +1,5 @@
 export const categories = [
+  { key: 'case', title: 'tr36', icon: 'lucide:pc-case' },
   { key: 'cpu', title: 'tr2', icon: 'solar:cpu-outline' },
   { key: 'mb', title: 'tr1', icon: 'bi:motherboard' },
   { key: 'ozu', title: 'tr3', icon: 'ri:ram-2-line' },
