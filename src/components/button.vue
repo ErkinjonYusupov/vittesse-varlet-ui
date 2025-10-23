@@ -17,7 +17,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   color: '#fff',
-  bg: '#008C95',
+  bg: '#00954a',
   size: 'medium',
   loading: false,
   outlined: false,

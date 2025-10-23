@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<Props>(), {
   initialValue: 1,
   min: 0,
   max: 999,
-  color: '#0d9488',
+  color: '#00954a',
 })
 
 // Emit

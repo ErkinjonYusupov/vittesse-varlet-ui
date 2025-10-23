@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import useFormRules from '~/composables/useFormRules';
-import { vMaska } from 'maska/vue'
+import type { IData } from '~/types'
 import { Icon } from '@iconify/vue/dist/iconify.js'
-import { regions } from '~/composables/useRegions';
-import { IData } from '~/types';
+import { vMaska } from 'maska/vue'
+import useFormRules from '~/composables/useFormRules'
+import { regions } from '~/composables/useRegions'
+
 const { required, min } = useFormRules()
 const { t } = useI18n()
 const phone = ref<string>('')
@@ -18,12 +19,13 @@ function getUserFromLocalStorage(): any | null {
   user.value = userData ? JSON.parse(userData) : null
 }
 
-
 const data = ref<IData[]>([])
 
 function init() {
   data.value = JSON.parse(localStorage.getItem('cart') || '[]')
 }
+
+const notify = useNotify()
 
 onMounted(() => {
   init()
@@ -31,12 +33,14 @@ onMounted(() => {
 })
 
 const form = ref<HTMLFormElement | null>(null)
-
+const totoalSum = computed(() => {
+  return data.value.reduce((total: number, el: IData) => total + Number(el.product.price) * el.count, 0)
+})
 function createOrderMessage(): string {
   // 1. Buyurtma ro'yxati
   const itemsList = data.value
-    .map((el: IData, index: number) => 
-      `${index + 1}. ${el.product.name} - ${el.count} × $${el.product.price}`
+    .map((el: IData, index: number) =>
+      `${index + 1}. ${el.product.name} - ${el.count} × $${el.product.price}`,
     )
     .join('\n')
 
@@ -44,11 +48,11 @@ function createOrderMessage(): string {
   const total = totoalSum.value
 
   // 3. Mijoz ma'lumotlari
-  const customerInfo = `👤  Ism familya: ${user.value && user.value.first_name|| 'Belgilanmagan'} ${user.value && user.value.last_name|| 'Belgilanmagan'}\n`
-  +`📍 <b>Viloyat:</b> ${region.value.name || 'Belgilanmagan'}\n`
-  + `🏙️ Shahar/Tuman: ${city.value || 'Belgilanmagan'}\n`
-  + ` Qo'shimcha ma'lumot: ${description.value || 'Belgilanmagan'}\n`
-  + `📞 Telefon: +998 ${phone.value || 'Belgilanmagan'}\n`
+  const customerInfo = `👤  Ism familya: ${user.value && user.value.first_name || 'Belgilanmagan'} ${user.value && user.value.last_name || 'Belgilanmagan'}\n`
+    + `📍 <b>Viloyat:</b> ${region.value.name || 'Belgilanmagan'}\n`
+    + `🏙️ Shahar/Tuman: ${city.value || 'Belgilanmagan'}\n`
+    + ` Qo'shimcha ma'lumot: ${description.value || 'Belgilanmagan'}\n`
+    + `📞 Telefon: +998 ${phone.value || 'Belgilanmagan'}\n`
 
   // 4. To'liq message
   return `🛒 **YANGI BUYURTMA**\n\n`
@@ -66,42 +70,52 @@ async function done() {
       const message = createOrderMessage()
       sendTelegramMessage(message)
       localStorage.removeItem('cart')
-      alert(t('tr13'))
+      notify.success(t('tr13'))
       router.replace('/')
     }
   })
 }
-const totoalSum = computed(() => {
-  return data.value.reduce((total: number, el: IData) => total + Number(el.product.price) * el.count, 0)
-})
 </script>
+
 <template>
   <div>
     <AppBar />
     <div p-4>
-      <div text-18px font-600>{{ t('tr14') }}:</div>
+      <div text-18px font-600>
+        {{ t('tr14') }}:
+      </div>
       <div v-for="item in data" :key="item.product.id">
-        <div border border-gray p-2 mb-1 rounded-2xl>
+        <div mb-1 border border-gray rounded-2xl p-2>
           <div>{{ item.product.name }}</div>
-          <div flex justify-end items-end>
+          <div flex items-end justify-end>
             <div>${{ item.product.price }} x {{ item.count }}</div>
           </div>
         </div>
       </div>
-      <div flex justify-end items-end>
-        <div text-18px font-600>{{t('tr15')}}: $ {{ totoalSum }}</div>
+      <div flex items-end justify-end>
+        <div text-18px font-600>
+          {{ t('tr15') }}: $ {{ totoalSum }}
+        </div>
       </div>
       <q-separator />
-      <div text-18px font-600>{{ t('tr16') }}:</div>
-      <q-form ref="form" flex flex-col gap-2 mt-3>
-        <q-select v-model="region" :options="regions" option-label="name" option-value="name" outlined clearable
+      <div text-18px font-600>
+        {{ t('tr16') }}:
+      </div>
+      <q-form ref="form" mt-3 flex flex-col gap-2>
+        <q-select
+          v-model="region" :options="regions" option-label="name" option-value="name" outlined clearable
           map-options color="#5925DC" behavior="menu" transition-show="jump-up" transition-hide="jump-up"
-          :label="t('tr17')" :rules="[required()]" @update:model-value="city = ''" />
-        <q-select v-if="region" v-model="city" :options="region.children" option-label="name" option-value="name"
+          :label="t('tr17')" :rules="[required()]" @update:model-value="city = ''"
+        />
+        <q-select
+          v-if="region" v-model="city" :options="region.children" option-label="name" option-value="name"
           outlined clearable map-options color="#5925DC" behavior="menu" transition-show="jump-up"
-          transition-hide="jump-up" :label="t('tr18')" :rules="[required()]" />
-        <q-input v-model="phone" v-maska="'## ### ## ##'" outlined
-          :rules="[required(), min(12, t('tr22', { count: 9 }))]">
+          transition-hide="jump-up" :label="t('tr18')" :rules="[required()]"
+        />
+        <q-input
+          v-model="phone" v-maska="'## ### ## ##'" outlined
+          :rules="[required(), min(12, t('tr22', { count: 9 }))]"
+        >
           <template #prepend>
             <div flex items-center gap-2>
               <Icon icon="twemoji:flag-uzbekistan" width="20" height="20" />
@@ -111,11 +125,10 @@ const totoalSum = computed(() => {
             </div>
           </template>
         </q-input>
-        <q-input v-model="description" :label="t('tr20')" outlined type="textarea">
-        </q-input>
+        <q-input v-model="description" :label="t('tr20')" outlined type="textarea" />
       </q-form>
       <div mt-2>
-        <Button w-full size="large" @click="done" :label="t('tr21')" />
+        <Button w-full size="large" :label="t('tr21')" @click="done" />
       </div>
     </div>
   </div>
