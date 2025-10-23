@@ -1,4 +1,34 @@
-tr1: Ona platalar en
-tr2: Protsessorlar
-tr3: Tezkor xotira
-tr4: Quvvat blogi
+tr1: Motherboards
+tr2: Processors
+tr3: RAM
+tr4: Power supplies
+tr5: Search...
+tr6: HDD and SSD
+tr7: Graphics cards
+tr8: Coolers
+tr9: Monitors
+tr10: Keyboards and mice
+tr11: Dark mode
+tr12: Site language
+tr13: Your order has been accepted
+tr14: My orders
+tr15: Total
+tr16: My information
+tr17: Region
+tr18: District / city
+tr19: Phone number
+tr20: Additional information
+tr21: Place order
+tr22: Enter information
+tr23: This field must contain at least {count} characters
+tr24: This field is required
+tr25: This field must contain maximum {count} characters
+tr26: This field must be greater than 0
+tr27: This field must be a positive number
+tr28: Date of birth cannot be empty
+tr29: Date must be in DD-MM-YYYY format!
+tr30: Invalid date! For example, February 30 doesn't exist.
+tr31: Date of birth cannot be in the future!
+tr32: Cart
+tr33: No products available
+tr34: Place order

@@ -3,7 +3,7 @@ import { Icon } from '@iconify/vue/dist/iconify.js'
 import { IData } from '~/types'
 
 
-
+const { t } = useI18n()
 const data = ref<IData[]>([])
 
 function init() {
@@ -45,6 +45,7 @@ const router = useRouter()
 function toOrdered() {
   router.push('/ordered')
 }
+
 </script>
 
 <template>
@@ -52,10 +53,10 @@ function toOrdered() {
     <AppBar>
       <div flex items-center justify-between bg-white p-4 dark:bg-gray-8>
         <div text-18px font-600 text-gray>
-          Savatcha
+          {{ t('tr32') }}
         </div>
         <div v-if="totoalSum" text-gray>
-          Jami: <span font-700>$ {{ totoalSum }}</span>
+          {{ t('tr15') }}: <span font-700>$ {{ totoalSum }}</span>
         </div>
       </div>
     </AppBar>
@@ -76,13 +77,13 @@ function toOrdered() {
         </div>
       </div>
       <div px-4>
-        <Button size="large" w-full label="Buyurtma qilish" @click="toOrdered" />
+        <Button size="large" w-full :label="t('tr34')" @click="toOrdered" />
       </div>
     </div>
     <div v-else flex flex-col items-center pt-5 text-center>
       <Icon icon="material-symbols:production-quantity-limits" mb-4 text-64px text-gray />
       <div text-gray>
-        Mahsulotlar mavjud emas
+        {{ t('tr33') }}
       </div>
     </div>
   </div>

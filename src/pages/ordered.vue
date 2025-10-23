@@ -66,7 +66,7 @@ async function done() {
       const message = createOrderMessage()
       sendTelegramMessage(message)
       localStorage.removeItem('cart')
-      alert("Buyurtmangiz qabul qilindi")
+      alert(t('tr13'))
       router.replace('/')
     }
   })
@@ -79,7 +79,7 @@ const totoalSum = computed(() => {
   <div>
     <AppBar />
     <div p-4>
-      <div text-18px font-600>Buyurtmalarim:</div>
+      <div text-18px font-600>{{ t('tr14') }}:</div>
       <div v-for="item in data" :key="item.product.id">
         <div border border-gray p-2 mb-1 rounded-2xl>
           <div>{{ item.product.name }}</div>
@@ -89,19 +89,19 @@ const totoalSum = computed(() => {
         </div>
       </div>
       <div flex justify-end items-end>
-        <div text-18px font-600>Jami: $ {{ totoalSum }}</div>
+        <div text-18px font-600>{{t('tr15')}}: $ {{ totoalSum }}</div>
       </div>
       <q-separator />
-      <div text-18px font-600>Ma'lumotlarim:</div>
+      <div text-18px font-600>{{ t('tr16') }}:</div>
       <q-form ref="form" flex flex-col gap-2 mt-3>
         <q-select v-model="region" :options="regions" option-label="name" option-value="name" outlined clearable
           map-options color="#5925DC" behavior="menu" transition-show="jump-up" transition-hide="jump-up"
-          :label="$t('tr17')" :rules="[required()]" @update:model-value="city = ''" />
+          :label="t('tr17')" :rules="[required()]" @update:model-value="city = ''" />
         <q-select v-if="region" v-model="city" :options="region.children" option-label="name" option-value="name"
           outlined clearable map-options color="#5925DC" behavior="menu" transition-show="jump-up"
-          transition-hide="jump-up" :label="$t('tr17')" :rules="[required()]" />
+          transition-hide="jump-up" :label="t('tr18')" :rules="[required()]" />
         <q-input v-model="phone" v-maska="'## ### ## ##'" outlined
-          :rules="[required(), min(12, t('tr61', { count: 9 }))]">
+          :rules="[required(), min(12, t('tr22', { count: 9 }))]">
           <template #prepend>
             <div flex items-center gap-2>
               <Icon icon="twemoji:flag-uzbekistan" width="20" height="20" />
@@ -111,11 +111,11 @@ const totoalSum = computed(() => {
             </div>
           </template>
         </q-input>
-        <q-input v-model="description" label="Qo'shimcha ma'lumot" outlined type="textarea">
+        <q-input v-model="description" :label="t('tr20')" outlined type="textarea">
         </q-input>
       </q-form>
       <div mt-2>
-        <Button w-full size="large" @click="done" label="Buyurtmani rasmiylashtirish" />
+        <Button w-full size="large" @click="done" :label="t('tr21')" />
       </div>
     </div>
   </div>

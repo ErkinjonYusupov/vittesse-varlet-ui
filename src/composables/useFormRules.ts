@@ -4,12 +4,12 @@ export default function useFormRules() {
     required:
       (message = '') =>
         (val: any) => {
-          return !!val || message || t('tr62')
+          return !!val || message || t('tr24')
         },
     isDate:
       (message = '') =>
         (val: any) => {
-          return !!val || message || t('tr62')
+          return !!val || message || t('tr24')
         },
     min:
       (length: number, message = '') =>
@@ -17,7 +17,7 @@ export default function useFormRules() {
           return (
             val.length >= length
             || message
-            || t('tr61', { count: length })
+            || t('tr23', { count: length })
           )
         },
     max:
@@ -26,7 +26,7 @@ export default function useFormRules() {
           return (
             val.length <= length
             || message
-            || t('tr63', { count: length })
+            || t('tr25', { count: length })
           )
         },
     notNol:
@@ -59,7 +59,7 @@ export default function useFormRules() {
         (val: any) => {
         // 1. Sana bo'sh bo'lmasligini tekshirish
           if (!val) {
-            return message || t('tr62')
+            return message || t('tr24')
           }
 
           // 2. Sana DD-MM-YYYY formatida ekanligini tekshirish

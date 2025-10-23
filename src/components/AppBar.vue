@@ -3,7 +3,7 @@ import { Icon } from '@iconify/vue/dist/iconify.js'
 import { Dark } from 'quasar'
 import { useOverlay } from '~/composables/useOverlay'
 import { loadLanguageAsync } from '~/modules/i18n'
-
+const { t} = useI18n()
 const props = defineProps<IProps>()
 const { locale } = useI18n()
 function toggleDarkFun() {
@@ -86,7 +86,7 @@ interface IProps {
                       <div flex items-center justify-between>
                         <div flex items-center gap-8px text-gray>
                           <div i="carbon-sun dark:carbon-moon" text-18px />
-                          <div>Tungi rejim</div>
+                          <div>{{ t('tr11') }}</div>
                         </div>
                         <q-toggle v-model="Dark.mode" dense color="" @click="toggleDarkFun" />
                       </div>
@@ -97,7 +97,7 @@ interface IProps {
                       <div flex items-center justify-between>
                         <div flex items-center gap-8px text-gray>
                           <Icon icon="material-symbols:language" width="20" height="20" />
-                          <div>Dastur tili</div>
+                          <div>{{ t('tr12') }}</div>
                         </div>
                         <div flex items-center gap-2 text-gray-8>
                           <Icon v-if="locale === 'uz'" icon="emojione:flag-for-uzbekistan" width="24" height="24" />
@@ -125,6 +125,14 @@ interface IProps {
                               <div flex items-center gap-2>
                                 <Icon icon="circle-flags:ru" width="20" height="20" />
                                 <div>Русский</div>
+                              </div>
+                            </q-item-section>
+                          </q-item>
+                          <q-item v-close-popup clickable @click="toggleLocales('en')">
+                            <q-item-section>
+                              <div flex items-center gap-2>
+                                <Icon icon="circle-flags:en" width="20" height="20" />
+                                <div>English</div>
                               </div>
                             </q-item-section>
                           </q-item>
