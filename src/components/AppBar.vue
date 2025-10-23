@@ -3,8 +3,9 @@ import { Icon } from '@iconify/vue/dist/iconify.js'
 import { Dark } from 'quasar'
 import { useOverlay } from '~/composables/useOverlay'
 import { loadLanguageAsync } from '~/modules/i18n'
-const { t} = useI18n()
+
 const props = defineProps<IProps>()
+const { t } = useI18n()
 const { locale } = useI18n()
 function toggleDarkFun() {
   toggleDark()
@@ -79,8 +80,8 @@ interface IProps {
             </q-btn>
             <q-btn flat>
               <Icon icon="solar:settings-linear" text-24px color="gray" />
-              <q-menu transition-show="jump-down" transition-hide="jump-up" class="w-250px dark:bg-gray-800 bg-white">
-                <q-list dark:bg-gray-800 bg-white>
+              <q-menu transition-show="jump-down" transition-hide="jump-up" class="w-250px bg-white dark:bg-gray-800">
+                <q-list bg-white dark:bg-gray-800>
                   <q-item v-close-popup clickable @click="toggleDarkFun">
                     <q-item-section>
                       <div flex items-center justify-between>
@@ -101,16 +102,20 @@ interface IProps {
                         </div>
                         <div flex items-center gap-2 text-gray-8>
                           <Icon v-if="locale === 'uz'" icon="emojione:flag-for-uzbekistan" width="24" height="24" />
-                          <Icon v-else icon="circle-flags:ru" width="24" height="24" />
+                          <Icon v-else-if="locale === 'ru'" icon="circle-flags:ru" width="24" height="24" />
+                          <Icon v-else icon="circle-flags:en" width="24" height="24" />
                           <div v-if="locale === 'uz'" text-gray>
                             UZ
                           </div>
-                          <div v-else text-gray>
+                          <div v-else-if="locale === 'ru'" text-gray>
                             RU
+                          </div>
+                          <div v-else text-gray>
+                            EN
                           </div>
                         </div>
                       </div>
-                      <q-menu dark:bg-gray-7 bg-white>
+                      <q-menu bg-white dark:bg-gray-7>
                         <q-list style="min-width: 200px">
                           <q-item v-close-popup clickable @click="toggleLocales('uz')">
                             <q-item-section>
