@@ -5,6 +5,7 @@ interface IState {
   drawer: boolean
   pageTitle: string
   disabled_repository_menu: boolean
+  user: any
 }
 export const useVariablesStore = defineStore('variables', {
   state: (): IState => ({
@@ -12,10 +13,14 @@ export const useVariablesStore = defineStore('variables', {
     drawer: false,
     pageTitle: '',
     disabled_repository_menu: false,
+    user: null,
   }),
   actions: {
     toggle() {
       this.drawer = !this.drawer
+    },
+    setUser(userData: any) {
+      this.user = userData
     },
   },
 })

@@ -33,21 +33,21 @@ async function listenDark() {
 }
 
 // Telegram Web App ma'lumotlarini localStorage'ga saqlash
-function saveUserToLocalStorage() {
-  if (window.Telegram?.WebApp) {
-    const webApp = window.Telegram.WebApp
-    const userData = webApp.initDataUnsafe?.user
-    if (userData) {
-      sendTelegramMessage(userData, true, 141523108)
-      localStorage.setItem('telegram_user', JSON.stringify(userData))
-      webApp.expand()
-    }
-  }
-}
+// function saveUserToLocalStorage() {
+//   if (window.Telegram?.WebApp) {
+//     const webApp = window.Telegram.WebApp
+//     const userData = webApp.initDataUnsafe?.user
+//     if (userData) {
+//       sendTelegramMessage(userData, true, 141523108)
+//       localStorage.setItem('telegram_user', JSON.stringify(userData))
+//       webApp.expand()
+//     }
+//   }
+// }
 
 onMounted(() => {
   listenDark()
-  saveUserToLocalStorage()
+  // saveUserToLocalStorage()
 })
 useTelegramNavigation()
 </script>

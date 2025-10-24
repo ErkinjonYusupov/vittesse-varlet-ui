@@ -1,5 +1,5 @@
-import { Dark, Dialog, Loading, Notify, Quasar } from 'quasar'
 import type { UserModule } from '~/types'
+import { Dark, Dialog, Loading, Notify, Quasar } from 'quasar'
 
 export const install: UserModule = ({ app }) => {
   app.use(Quasar, {
